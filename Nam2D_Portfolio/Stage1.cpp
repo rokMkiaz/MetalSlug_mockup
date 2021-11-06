@@ -85,7 +85,7 @@ Stage* Stage1::Update()
 		Boss->SelectLocation(Vector<2>(1000, 0));
 	}
 	*/
-	//Wavve1
+	//Wave1
 	if (Player->Location() >= 600.f ) Wavve1 = true;
 	if(Wavve1==true && Count==0)
 	{
@@ -111,7 +111,7 @@ Stage* Stage1::Update()
 			Count++;
 		
 	}
-	//Wavve2
+	//Wave2
 	if (Player->Location() >= 1000.f) Wavve2 = true;
 	if (Wavve2 == true && Count == 1)
 	{
@@ -137,7 +137,7 @@ Stage* Stage1::Update()
 		Count++;
 
 	}
-	//Wavve3
+	//Wave3
 	if (Player->Location() >= 1800.f)Wavve3 = true;
 	if(Wavve3==true && Count==2)
 	{
@@ -204,7 +204,7 @@ Stage* Stage1::Update()
 		
 			EnemySoldier[i]->Deathmotion(3);
 		    EnemySoldier[i]->Hp -= Player->bullet1 ->effect->Damage ;
-			//Player->bullet1->effect->Damage = 0;//Start¿¡¼­ µ¥¹ÌÁö¸¦ ³Ö¾îÁÜÀ¸·Î½á ¿¬¼Ó Ãæµ¹ ÇØ°á,  º¸º´µé»ó´ë·Î´Â »ó°ü¾ø°ÔÇÔ.
+			//Player->bullet1->effect->Damage = 0;//Startì—ì„œ ë°ë¯¸ì§€ë¥¼ ë„£ì–´ì¤Œìœ¼ë¡œì¨ ì—°ì† ì¶©ëŒ í•´ê²°,  ë³´ë³‘ë“¤ìƒëŒ€ë¡œëŠ” ìƒê´€ì—†ê²Œí•¨.
 		
 		
 		}
@@ -249,7 +249,7 @@ Stage* Stage1::Update()
 
 			EnemyTank[i]->Deathmotion(3);
 			EnemyTank[i]->Hp -= Player->bullet1->effect->Damage;
-			Player->bullet1->effect->Damage = 0;//Start¿¡¼­ µ¥¹ÌÁö¸¦ ³Ö¾îÁÜÀ¸·Î½á ¿¬¼Ó Ãæµ¹ ÇØ°á,  º¸º´µé»ó´ë·Î´Â »ó°ü¾ø°ÔÇÔ.
+			Player->bullet1->effect->Damage = 0;//Startì—ì„œ ë°ë¯¸ì§€ë¥¼ ë„£ì–´ì¤Œìœ¼ë¡œì¨ ì—°ì† ì¶©ëŒ í•´ê²°,  ë³´ë³‘ë“¤ìƒëŒ€ë¡œëŠ” ìƒê´€ì—†ê²Œí•¨.
 
 
 		}
@@ -283,7 +283,7 @@ Stage* Stage1::Update()
 			EnemyTank[i]->bullet1->End();
 
 		}
-		if (Player->Actorphysics.Collide(EnemyTank[i]->Actorphysics))//ÅÊÅ© Ãæµ¹½Ã È¦µù
+		if (Player->Actorphysics.Collide(EnemyTank[i]->Actorphysics))//íƒ±í¬ ì¶©ëŒì‹œ í™€ë”©
 		{
 			EnemyTank[i]->Hp = 0;
 			Player->Deathmotion(1);
@@ -297,7 +297,7 @@ Stage* Stage1::Update()
 
 	
 		Boss->Hp -= Player->bullet1->effect->Damage;
-		Player->bullet1->effect->Damage = 0;//Start¿¡¼­ µ¥¹ÌÁö¸¦ ³Ö¾îÁÜÀ¸·Î½á ¿¬¼Ó Ãæµ¹ ÇØ°á
+		Player->bullet1->effect->Damage = 0;//Startì—ì„œ ë°ë¯¸ì§€ë¥¼ ë„£ì–´ì¤Œìœ¼ë¡œì¨ ì—°ì† ì¶©ëŒ í•´ê²°
 
 	}
 
