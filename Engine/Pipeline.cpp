@@ -1,4 +1,4 @@
-#include <cassert>    //주장하다
+#include <cassert>    
 #include <d3d11.h>
 
 #include"Pipeline.h"
@@ -58,9 +58,9 @@ namespace Engine::Rendering::Pipeline
                     Area.right  = center.x + size.cx / 2;
                     Area.bottom = center.y + size.cy / 2;
 
-                    UINT const Format = DT_WORDBREAK/*수평을 넘칠경우 내린다*/ | DT_NOPREFIX | DT_EDITCONTROL | DT_NOFULLWIDTHCHARBREAK;
+                    UINT const Format = DT_WORDBREAK | DT_NOPREFIX | DT_EDITCONTROL | DT_NOFULLWIDTHCHARBREAK;
                     
-                    DrawText(hDC, string, ~'\0', &Area, Format); //텍스트를 그리는 부분
+                    DrawText(hDC, string, ~'\0', &Area, Format); 
                 }
                 MUST(Surface->ReleaseDC(nullptr));
             }
@@ -176,7 +176,7 @@ namespace Engine::Rendering::Pipeline
         UINT const uMessage,
         WPARAM const wParameter,
         LPARAM const lParameter 
-        /*W,L PARAM메세지별 세부 정보 정확한 내용은 내부적으로 나뉘어져있음*/
+  
     )
 
     {
@@ -199,7 +199,7 @@ namespace Engine::Rendering::Pipeline
                 Descriptor.OutputWindow = hWindow;
                 Descriptor.Windowed = true;
                 Descriptor.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-                Descriptor.Flags = DXGI_SWAP_CHAIN_FLAG_GDI_COMPATIBLE; //Resize
+                Descriptor.Flags = DXGI_SWAP_CHAIN_FLAG_GDI_COMPATIBLE; 
 
 
                 MUST(D3D11CreateDeviceAndSwapChain 
