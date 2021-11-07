@@ -6,8 +6,7 @@
 
 namespace Engine::Input
 {
-	//extern  외부 전역변수 선언할 때
-	//익명 namespace를 사용하면 외부에서 접근 불가 =static과 동일한 기능
+
 	namespace
 	{
 		class    // bit Matrix
@@ -16,7 +15,7 @@ namespace Engine::Input
 			void Update()
 			{
 				ZeroMemory(State.Changed, sizeof(State.Changed));
-			} //특정 범위의 메모리를 0으로 초기화
+			} 
 
 
 			void Down(WORD const code)
@@ -43,7 +42,7 @@ namespace Engine::Input
 			{
 
 				return State.Pressed[code>>0x4 /*/16*/]&(0x8000>>(code&0xF));
-			}//행,렬로 표시하기위해 0~255  = code/16+Y축 으로 계산 앞 4자리, 뒤 4자리(비트마스킹)
+			}
 
 		private:
 			struct
@@ -92,7 +91,7 @@ namespace Engine::Input
 			Wheel = POINT();
 			return;
 		}
-		case WM_MOUSEWHEEL:  { Wheel.x += static_cast<short> (wParmeter >>16&0xFFFF)/WHEEL_DELTA ; return; } //하단 매크로내용
+		case WM_MOUSEWHEEL:  { Wheel.x += static_cast<short> (wParmeter >>16&0xFFFF)/WHEEL_DELTA ; return; } 
 		case WM_MOUSEHWHEEL: { Wheel.y += GET_WHEEL_DELTA_WPARAM(wParmeter) / WHEEL_DELTA;         return; }
 		case WM_MOUSEMOVE:
 		{
@@ -134,14 +133,7 @@ namespace Engine::Input
 		case WM_SYSKEYUP:    case WM_KEYUP:    {Key.Up   (static_cast<WORD>(wParmeter)); return; }
 		
 
-		/*
-			short low  = wParmeter     & 0xFFFF;
-			short high = wParmeter>>16 & 0xFFFF;
-			비트 연산자
-			과제 short로 케스트할때 int로 캐스트할 때 차이 조사
 
-
-		*/
 
 		}
 
