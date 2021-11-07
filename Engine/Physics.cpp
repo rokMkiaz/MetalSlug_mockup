@@ -20,7 +20,7 @@ namespace Engine::Physics
 
 	}
 
-	template Component<Point>::Component(); 
+	template Component<Point>::Component(); //기본 형식과 별도로 동작
 	template Component<Point>::Component(Point const &);
 
 	template<>
@@ -43,7 +43,7 @@ namespace Engine::Physics
 
 
 
-	template Component<Circle>::Component(); 
+	template Component<Circle>::Component(); //기본 형식과 별도로 동작
 	template Component<Circle>::Component(Circle const&);
 
 	template<>
@@ -81,7 +81,7 @@ namespace Engine::Physics
 	}
 
 
-	template Component<Quadrangle>::Component(); 
+	template Component<Quadrangle>::Component(); //기본 형식과 별도로 동작
 	template Component<Quadrangle>::Component(Quadrangle const&);
 
 	template<>

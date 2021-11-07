@@ -31,18 +31,21 @@ namespace Engine
         UINT const uMessage,
         WPARAM const wParameter,
         LPARAM const lParameter 
-        /*W,L PARAMë©”ì„¸ì§€ë³„ ì„¸ë¶€ ì •ë³´ ì •í™•í•œ ë‚´ìš©ì€ ë‚´ë¶€ì ìœ¼ë¡œ ë‚˜ë‰˜ì–´ì ¸ìˆìŒ*/
+        /*W,L PARAM¸Ş¼¼Áöº° ¼¼ºÎ Á¤º¸ Á¤È®ÇÑ ³»¿ëÀº ³»ºÎÀûÀ¸·Î ³ª´µ¾îÁ®ÀÖÀ½*/
     )
 
     {
-      
+        //À©µµ¿ì ÇÁ·Î½ÃÀú Æ¯Á¤ À©µµ¿ì Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º·ÎºÎÅÍ ¹ß»ıÇÑ ¸Ş¼¼Áö¸¦ Ã³¸®ÇÏ´Â ÇÔ¼ö.
 
 
         switch (uMessage)
         {
 
-        case WM_CREATE:   
+        case WM_CREATE:    //»ı¼ºÁ÷ÈÄ »ı¼ºÀÚ¿Í °°À½, lParmeter·Î CRATESTRUCT WindowÀÇ ÀÎÀÚ°ªÀÌ Æ÷ÀÎÅÍ·Î ÀÔ·Â
         {
+   
+            //°úÁ¦: À©µµ¿ìÁîÁÂÇ¥°èÀÇ ÇÑÁ¡À» ¿ùµåÁÂÇ¥°è·Î º¯È¯ÇÏ·Á¸é ¾î¶²º¯È¯ÀÌ ÇÊ¿äÇÑ°¡?
+
 
 
             Rendering::Procedure(hWindow, uMessage, wParameter, lParameter);
@@ -69,7 +72,7 @@ namespace Engine
 
             return 0;
         }
-        case WM_DESTROY: 
+        case WM_DESTROY: //Ã¢ÀÌ ÆÄ±« µÉ¶§  ¼Ò¸êÀÚ¿Í µ¿ÀÏ
         {
 
             Portfolio->End();
@@ -77,7 +80,7 @@ namespace Engine
   
             Rendering::Procedure(hWindow, uMessage, wParameter, lParameter);
 
-            PostQuitMessage(0);
+            PostQuitMessage(0); //ÇÁ·Î±×·¥ ¿ÏÀü Á¾·á¸¦ À§ÇØ ÇÊ¿ä.
 
             return 0;
         }
@@ -99,9 +102,9 @@ namespace Engine
             Rendering::Procedure(hWindow, uMessage, wParameter, lParameter);
             return 0;
         }
-        default:
+        default: //±âº» »óÅÂ
         {
-            return DefWindowProc(hWindow, uMessage, wParameter, lParameter);   
+            return DefWindowProc(hWindow, uMessage, wParameter, lParameter);    // Closeµ¿ÀÛÀ» ÇÒ °æ¿ì ÀÚµ¿À¸·Î Destroy¸í·ÉÀ» ³»¸°´Ù.
         }
         break;
         }

@@ -70,6 +70,20 @@ namespace Engine::Rendering
             float    Angle = 0.0f;
         };
 
+        class Component_Window final
+        {
+        public:
+            void Render();
+
+        public:
+            char const* Name = nullptr;
+
+        public:
+            Vector<2> Location = { 0.0f, 0.0f };
+            Vector<2> Length = { 0.0f, 0.0f };
+            float     Angle = { 0.0f };
+        };
+
 
     }
     namespace Animation
@@ -91,6 +105,25 @@ namespace Engine::Rendering
             Vector<2>Location = Vector<2>();
             Vector<2>Length   = Vector<2>();
             float    Angle    = 0.0f;
+        };
+
+        class Component_Window final
+        {
+        public:
+            void Render();
+
+        public:
+            char const* Name = nullptr;
+
+            float       Playback = 0.0f;
+            float       Duration = 0.0f;
+            bool        Repeatable = false;
+            bool        Flipped = false;
+
+        public:
+            Vector<2> Location = { 0.0f, 0.0f };
+            Vector<2> Length = { 0.0f, 0.0f };
+            float     Angle = { 0.0f };
         };
 
     

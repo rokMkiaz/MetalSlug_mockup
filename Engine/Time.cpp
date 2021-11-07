@@ -11,7 +11,7 @@ namespace Engine::Time
 		std::chrono::steady_clock::time_point       Updated = std::chrono::steady_clock::now();
 	
 
-		float Elapsed; 
+		float Elapsed; //프로그램 시작부터 현재까지 얼마나 흐른지
 		float Delta;
 	}
 
