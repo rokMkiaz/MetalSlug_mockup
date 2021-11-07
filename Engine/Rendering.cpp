@@ -96,14 +96,14 @@ namespace Engine::Rendering
           void Component::Render()
           {
 
-              LOGFONT font = LOGFONT(); //폰트 디스크립터
-              font.lfHeight = Font.Size; //폰트사이즈
+              LOGFONT font = LOGFONT(); 
+              font.lfHeight = Font.Size; 
               
            
               font.lfWeight         =Font.Bold==false? FW_NORMAL : FW_BOLD;
-              font.lfItalic         =Font.Italic    ; // 기울어짐
+              font.lfItalic         =Font.Italic    ; 
               font.lfUnderline      =Font.Underlined ;
-              font.lfStrikeOut      =Font.StructOut;//언더라인
+              font.lfStrikeOut      =Font.StructOut;
               font.lfCharSet        = DEFAULT_CHARSET ;
               strcpy_s(font.lfFaceName, LF_FACESIZE, Font.Name);
 
@@ -232,7 +232,7 @@ namespace Engine::Rendering
                   SIZE const Frame;
               };
 
-              std::map<std::string const, Descriptor const> Storage; // 이름을 통해 해당 클래스 생성
+              std::map<std::string const, Descriptor const> Storage; 
              
               void Import(std::string const& file)
               {
@@ -242,9 +242,9 @@ namespace Engine::Rendering
                       {
                           if (FreeImage_GetBPP(bitmap) != 32)
                           {
-                              FIBITMAP* const previous = bitmap;//주소 삭제를 위해
+                              FIBITMAP* const previous = bitmap;
 
-                              bitmap = FreeImage_ConvertTo32Bits(bitmap); //32비트아닐경우 변환하여 넣어준다
+                              bitmap = FreeImage_ConvertTo32Bits(bitmap); 
 
                               FreeImage_Unload(previous);
 
@@ -252,7 +252,7 @@ namespace Engine::Rendering
                           FreeImage_FlipVertical(bitmap);
                       }
                       
-                      { // 핸들 생성
+                      { 
                           Pipeline::Texture::Handle* handle = nullptr;
                           {
                               SIZE const size
@@ -264,12 +264,12 @@ namespace Engine::Rendering
 
                               Pipeline::Texture::Create(handle, size, data);
                           }
-                          {//파일명에서 모션수 추출
+                          {
                               UINT const top = static_cast<UINT>(file.find_first_of('/') + sizeof(char));
                               UINT const mid = static_cast<UINT>(file.find_last_of('[') );
                               UINT const bot = static_cast<UINT>(file.find_last_of(']') );
 
-                              UINT const motion = std::atoi(file.substr(mid+sizeof(char),bot).data());//사이에있는 숫자 전부를 정수로 읽겠다.
+                              UINT const motion = std::atoi(file.substr(mid+sizeof(char),bot).data());
                               
                               SIZE const frame
                               {
@@ -284,7 +284,7 @@ namespace Engine::Rendering
                                   frame
                               };
                               
-                              Storage.try_emplace(file.substr(top, mid-top),descriptor); //몇글자 추출하는 함수  mid='[' 전까지 추출->애니매이션 파일의 이름
+                              Storage.try_emplace(file.substr(top, mid-top),descriptor); 
                           }
                       }
                       FreeImage_Unload(bitmap);
@@ -294,7 +294,7 @@ namespace Engine::Rendering
 
              
           }
-          void Component::Render()     // 월드갱신, 택스처좌표 갱신
+          void Component::Render()     
           {
               using namespace Pipeline;
               {
@@ -307,7 +307,7 @@ namespace Engine::Rendering
                   );
               }
               {
-                  Descriptor const& descriptor = Storage.at(Name);//디스크립터 함수와 맵을통해 구성한 정보와 연결시킴.
+                  Descriptor const& descriptor = Storage.at(Name);
 
 
                   LONG const progress = static_cast<LONG>((Playback / Duration) * descriptor.Motion);
@@ -324,7 +324,7 @@ namespace Engine::Rendering
                   Playback  += Time::Get::Delta();
                   
 
-                  if (Duration <= Playback)//해당조건은 반복을 조건
+                  if (Duration <= Playback)
                   {
                       if (Repeatable == true)Playback = fmod(Playback, Duration);
                       else Playback=Duration;
@@ -340,7 +340,7 @@ namespace Engine::Rendering
         switch (uMessage)
         {
 
-        case WM_CREATE:    //생성직후 생성자와 같음, lParmeter로 CRATESTRUCT Window의 인자값이 포인터로 입력
+        case WM_CREATE:    
         {
             Pipeline::Procedure(hWindow, uMessage, wParameter, lParameter);
     
@@ -371,11 +371,11 @@ namespace Engine::Rendering
 
             return;
         }
-        case WM_DESTROY: //창이 파괴 될때  소멸자와 동일
+        case WM_DESTROY: 
         {
-            //Pipeline::Texture::Delete(handle);
+     
             Pipeline::Procedure(hWindow, uMessage, wParameter, lParameter);
-            PostQuitMessage(0); //프로그램 완전 종료를 위해 필요.
+            PostQuitMessage(0); 
 
             return;
         }
