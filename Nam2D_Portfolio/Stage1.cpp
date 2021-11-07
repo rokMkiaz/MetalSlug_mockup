@@ -9,6 +9,19 @@
 
 Stage1::Stage1()
 {
+	MissionStart.Name = "Animation/SlugFile/Etc/GameStart";
+	MissionStart.Duration = 1.8f;
+	MissionStart.Length = Vector <2>(800, 300);
+	MissionStart.Location = Vector<2>(640, 250);
+	MissionStart.Repeatable = false;
+
+	Clear.Name = "Animation/SlugFile/Etc/Clear";
+	Clear.Duration = 1.0f;
+	Clear.Length = Vector <2>(1000, 250);
+	Clear.Location = Vector<2>(640, 150);
+	Clear.Repeatable = true;
+
+
 	Map.Name = "Image/Stage1";
 	Map.Length = Vector<2>(3800, 720);
 	Map.Location = Vector<2>(1400, 300);
@@ -19,9 +32,19 @@ Stage1::Stage1()
 	Groundphysics.Name = "Image/RBB";
 	Groundphysics.Location = { Map.Location[0]+200, -50.0f };
 	Groundphysics.Length= { Map.Length[0] , 100.f };
-
-
 	
+
+	Hpbar.Name = "Image/Ui/Hpbar";
+	Hpbar.Length = Vector<2>(300, 80);
+	Hpbar.Location = Vector<2>(150, 050);
+	
+	Hp.Name     = "Image/Ui/Hp";
+	Hp.Length   = Vector<2>(125, 7);
+	Hp.Location = Vector<2>(193, 60);
+
+	PlayerImage.Name = "Image/Ui/Image";
+	PlayerImage.Length = Vector<2>(60, 60);
+	PlayerImage.Location = Vector<2>(40, 43);
 }
 
 void Stage1::Start()
@@ -59,32 +82,16 @@ void Stage1::Start()
 	stageCam1.Start();
 	stageCam2.Start();
 
+	MaxHp = Hp.Length[0];
+
 	
 }
 
 Stage* Stage1::Update()
 {
 	Map.Render();
-	if (Player->Location() <= 700.f)	stageCam1.cam.Set();
-	if(Player->Location() >= 2700.f)	stageCam2.cam.Set();
-	/*
-	if (Engine::Input::Get::Key::Press('P'))
-	{
-		
-		for (int i = 0; i < 20; i++)
-		{
-			EnemySoldier[i]->Start();
-			EnemySoldier[i]->SelectLocation(Vector<2>(800 + (i % 3 == 0 ? i * 10 : i % 2 == 0 ? 0 : i * -10)    , 0));
-		}
-		for (int i = 0; i < 5; i++)
-		{
-			EnemyTank[i]->Start();
-			EnemyTank[i]->Target(Player);
-			EnemyTank[i]->SelectLocation(Vector<2>(800 + (i* 50),0));
-		}
-		Boss->SelectLocation(Vector<2>(1000, 0));
-	}
-	*/
+
+
 	//Wave1
 	if (Player->Location() >= 600.f ) Wavve1 = true;
 	if(Wavve1==true && Count==0)
@@ -204,7 +211,7 @@ Stage* Stage1::Update()
 		
 			EnemySoldier[i]->Deathmotion(3);
 		    EnemySoldier[i]->Hp -= Player->bullet1 ->effect->Damage ;
-			//Player->bullet1->effect->Damage = 0;//Startì—ì„œ ë°ë¯¸ì§€ë¥¼ ë„£ì–´ì¤Œìœ¼ë¡œì¨ ì—°ì† ì¶©ëŒ í•´ê²°,  ë³´ë³‘ë“¤ìƒëŒ€ë¡œëŠ” ìƒê´€ì—†ê²Œí•¨.
+			//Player->bullet1->effect->Damage = 0;//Start¿¡¼­ µ¥¹ÌÁö¸¦ ³Ö¾îÁÜÀ¸·Î½á ¿¬¼Ó Ãæµ¹ ÇØ°á,  º¸º´µé»ó´ë·Î´Â »ó°ü¾ø°ÔÇÔ.
 		
 		
 		}
@@ -228,15 +235,22 @@ Stage* Stage1::Update()
 		if (EnemySoldier[i]->bullet1->Hit.Collide(Ground) && EnemySoldier[i]->bullet1->Fly==true)
 		{
 			EnemySoldier[i]->bullet1->End();
+		
 		}
 		if (EnemySoldier[i]->bullet1->Hit.Collide(Player->Actorphysics))
 		{
 			
 
-			Player->Hp -= EnemySoldier[i]->bullet1->Damage;
 			Player->Deathmotion(1);
+			Player->Hp -= EnemySoldier[i]->bullet1->Damage;
+			EnemySoldier[i]->bullet1->Damage = 0 ;
+			Player->Update();
 			EnemySoldier[i]->bullet1->End();
-			
+
+			Hp.Length[0] = Player->Hp* (MaxHp / 10);
+			Hp.Location[0] = Hp.Location[0] -  ((MaxHp/2) /10 );
+		
+		
 		}
 	}
 	//EnemyTank
@@ -249,7 +263,7 @@ Stage* Stage1::Update()
 
 			EnemyTank[i]->Deathmotion(3);
 			EnemyTank[i]->Hp -= Player->bullet1->effect->Damage;
-			Player->bullet1->effect->Damage = 0;//Startì—ì„œ ë°ë¯¸ì§€ë¥¼ ë„£ì–´ì¤Œìœ¼ë¡œì¨ ì—°ì† ì¶©ëŒ í•´ê²°,  ë³´ë³‘ë“¤ìƒëŒ€ë¡œëŠ” ìƒê´€ì—†ê²Œí•¨.
+			Player->bullet1->effect->Damage = 0;//Start¿¡¼­ µ¥¹ÌÁö¸¦ ³Ö¾îÁÜÀ¸·Î½á ¿¬¼Ó Ãæµ¹ ÇØ°á,  º¸º´µé»ó´ë·Î´Â »ó°ü¾ø°ÔÇÔ.
 
 
 		}
@@ -278,12 +292,17 @@ Stage* Stage1::Update()
 		{
 
 
-			Player->Hp -= EnemyTank[i]->bullet1->Damage;
 			Player->Deathmotion(1);
+			Player->Hp -= EnemyTank[i]->bullet1->Damage;
+			EnemyTank[i]->bullet1->Damage = 0;
+			Player->Update();
 			EnemyTank[i]->bullet1->End();
 
+			Hp.Length[0] = Player->Hp * (MaxHp / 10);
+			Hp.Location[0] = Hp.Location[0] - ((MaxHp / 2) / 10);//(MaxHp/2)/(PlayerMaxHp/Damage)
+
 		}
-		if (Player->Actorphysics.Collide(EnemyTank[i]->Actorphysics))//íƒ±í¬ ì¶©ëŒì‹œ í™€ë”©
+		if (Player->Actorphysics.Collide(EnemyTank[i]->Actorphysics))//ÅÊÅ© Ãæµ¹½Ã È¦µù
 		{
 			EnemyTank[i]->Hp = 0;
 			Player->Deathmotion(1);
@@ -297,7 +316,7 @@ Stage* Stage1::Update()
 
 	
 		Boss->Hp -= Player->bullet1->effect->Damage;
-		Player->bullet1->effect->Damage = 0;//Startì—ì„œ ë°ë¯¸ì§€ë¥¼ ë„£ì–´ì¤Œìœ¼ë¡œì¨ ì—°ì† ì¶©ëŒ í•´ê²°
+		Player->bullet1->effect->Damage = 0;//Start¿¡¼­ µ¥¹ÌÁö¸¦ ³Ö¾îÁÜÀ¸·Î½á ¿¬¼Ó Ãæµ¹ ÇØ°á
 
 	}
 
@@ -321,11 +340,22 @@ Stage* Stage1::Update()
 	}
 	if (Boss->bullet1->Hit.Collide(Player->Actorphysics))
 	{
+		if (Boss->bullet1->effect->Check == true)
+		{
+			Boss->bullet1->effect = new Enemybullet::Boss::BossMainBulletffect;
 
+		}
 
-		Player->Hp -= Boss->bullet1->Damage;
+	
 		Player->Deathmotion(1);
+		Player->Hp -= Boss->bullet1->Damage;
+		Boss->bullet1->Damage = 0;
+		Player->Update();
 		Boss->bullet1->End();
+
+		Hp.Length[0] = Player->Hp * (MaxHp / 10);
+		Hp.Location[0] = Hp.Location[0] - ((MaxHp / 2) / 5);
+
 
 	}
 	//Boss Sub attack Test
@@ -337,9 +367,16 @@ Stage* Stage1::Update()
 		}
 		if (Boss->bullet2[i]->Hit.Collide(Player->Actorphysics))
 		{
-			Player->Hp -= Boss->bullet2[i]->Damage;
+
 			Player->Deathmotion(1);
+			Player->Hp -= Boss->bullet2[i]->Damage;
+			Boss->bullet2[i]->Damage = 0;
+			Player->Update();
 			Boss->bullet2[i]->End();
+
+			Hp.Length[0] = Player->Hp * (MaxHp / 10);
+			Hp.Location[0] = Hp.Location[0] - ((MaxHp / 2) / 10);
+
 		}
 		for (int j = 0; j < 15; j++)
 		{
@@ -349,6 +386,8 @@ Stage* Stage1::Update()
 					Boss->bullet2[i]->End();
 					Player->bullet2[j]->End();
 					Player->bullet2[j]->Damage = 0;
+
+
 				}
 			}
 		}
@@ -422,10 +461,47 @@ Stage* Stage1::Update()
 		Boss->bullet2[i]->effect->Update();
 		Boss->bullet2[i]->effect->End();
 	}
+
+	//if(Boss->Hp<0)
+	
+
 	Player->bullet1->effect->Update();
 	Player->bullet1->effect->End();
 	
 	Player->Update();
+
+
+
+	//UI Render
+	
+	Hpbar.Render();
+	Hp.Render();
+	PlayerImage.Render();
+
+
+	delay += Engine::Time::Get::Delta();
+	if (delay > 0.7f)
+	{
+		MissionStart.Render();
+	}
+	//if (delay > 2.0f)delay = 0.0f;
+	if (Boss->Hp <= 0)
+	{
+		Player->Hp = 10;
+		Hp.Location = Vector<2>(193, 60);
+		Hp.Length = Vector<2>(125, 7);
+		
+		Clear.Render();
+		if (Clear.Playback > 0.9f)
+		{
+			Clear.Playback = 0.9f;
+			//return new Stage1;
+		}
+	}
+	Player->Look->cam.Set();
+	if (Player->Location() <= 700.f)	stageCam1.cam.Set();
+	if (Player->Location() >= 2700.f)	stageCam2.cam.Set();
+	
 
 	return nullptr;
 }
@@ -435,6 +511,8 @@ void Stage1::End()
 	
 	Player->End();
 	
+
+	delete Boss;
 	for (int i = 0; i < 40; i++)
 	{
 		EnemySoldier[i]->End();
