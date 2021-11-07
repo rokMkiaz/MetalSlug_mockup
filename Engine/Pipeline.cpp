@@ -1,4 +1,4 @@
-#include <cassert>    //ÁÖÀåÇÏ´Ù
+#include <cassert>    //ì£¼ì¥í•˜ë‹¤
 #include <d3d11.h>
 
 #include"Pipeline.h"
@@ -12,7 +12,7 @@
 #endif
 
 
-//Engine ¹ß»ıÇÑ cpp¸¦ ÇÊ¿äÇÑ °÷¿¡ Áß°èÇØÁÖ´Â °÷
+
 namespace Engine::Rendering::Pipeline
 {
     namespace
@@ -27,15 +27,15 @@ namespace Engine::Rendering::Pipeline
         namespace Buffer
         {
             ID3D11Buffer* Vertex;            
-            //ID3D11Buffer* Index; »ç¿ëÇÔ¿¡ ÀÖ¾î »ç½Ç ÇÊ¿ä¾øÀ½
+     
             ID3D11Buffer* Constant[3];
         }
 
         ID3D11RenderTargetView* RenderTargetView;
 
-        //ÆÄÀÌÇÁ¶óÀÎ¿¡¼­ ¿ìÈ¸ÇÏ¿© »ç¿ëÀÌ °¡´ÉÇÏÁö¸¸ Á÷Á¢ÀûÀ¸·Î ´Ù·ê·Á°í º¯¼ö¸¦ ³²°ÜµĞ°ÍÀÌ´Ù.
+     
     }
-    namespace String  // ÆùÆ®
+    namespace String  
     {
         void Render(HFONT const hFont, LPCSTR const string, COLORREF const color, SIZE const& size, POINT const& center)
         {
@@ -58,9 +58,9 @@ namespace Engine::Rendering::Pipeline
                     Area.right  = center.x + size.cx / 2;
                     Area.bottom = center.y + size.cy / 2;
 
-                    UINT const Format = DT_WORDBREAK/*¼öÆòÀ» ³ÑÄ¥°æ¿ì ³»¸°´Ù*/ | DT_NOPREFIX | DT_EDITCONTROL | DT_NOFULLWIDTHCHARBREAK;
+                    UINT const Format = DT_WORDBREAK/*ìˆ˜í‰ì„ ë„˜ì¹ ê²½ìš° ë‚´ë¦°ë‹¤*/ | DT_NOPREFIX | DT_EDITCONTROL | DT_NOFULLWIDTHCHARBREAK;
                     
-                    DrawText(hDC, string, ~'\0', &Area, Format); //ÅØ½ºÆ®¸¦ ±×¸®´Â ºÎºĞ
+                    DrawText(hDC, string, ~'\0', &Area, Format); //í…ìŠ¤íŠ¸ë¥¼ ê·¸ë¦¬ëŠ” ë¶€ë¶„
                 }
                 MUST(Surface->ReleaseDC(nullptr));
             }
@@ -176,7 +176,7 @@ namespace Engine::Rendering::Pipeline
         UINT const uMessage,
         WPARAM const wParameter,
         LPARAM const lParameter 
-        /*W,L PARAM¸Ş¼¼Áöº° ¼¼ºÎ Á¤º¸ Á¤È®ÇÑ ³»¿ëÀº ³»ºÎÀûÀ¸·Î ³ª´µ¾îÁ®ÀÖÀ½*/
+        /*W,L PARAMë©”ì„¸ì§€ë³„ ì„¸ë¶€ ì •ë³´ ì •í™•í•œ ë‚´ìš©ì€ ë‚´ë¶€ì ìœ¼ë¡œ ë‚˜ë‰˜ì–´ì ¸ìˆìŒ*/
     )
 
     {
@@ -187,7 +187,7 @@ namespace Engine::Rendering::Pipeline
         {
             {
 
-                DXGI_SWAP_CHAIN_DESC Descriptor = DXGI_SWAP_CHAIN_DESC(); //0ÀÎ°Íµé »èÁ¦
+                DXGI_SWAP_CHAIN_DESC Descriptor = DXGI_SWAP_CHAIN_DESC(); 
 
                 Descriptor.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
                 Descriptor.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
@@ -202,7 +202,7 @@ namespace Engine::Rendering::Pipeline
                 Descriptor.Flags = DXGI_SWAP_CHAIN_FLAG_GDI_COMPATIBLE; //Resize
 
 
-                MUST(D3D11CreateDeviceAndSwapChain /*µğ¹ÙÀÌ½º¿Í ½º¿ÒÃ¼ÀÎ µ¿½Ã»ı¼º*/
+                MUST(D3D11CreateDeviceAndSwapChain 
                 (
                     nullptr,
                     D3D_DRIVER_TYPE_HARDWARE,
@@ -229,20 +229,20 @@ namespace Engine::Rendering::Pipeline
                         D3D11_INPUT_ELEMENT_DESC(),
                         D3D11_INPUT_ELEMENT_DESC()
                     };
-                    Descriptor[0].SemanticName = "POSITION"; //VS¿¬°á
-                    Descriptor[0].SemanticIndex = 0; // Semantic name ±¸ºĞ
-                    Descriptor[0].Format = DXGI_FORMAT_R32G32_FLOAT; //³Ñ°ÜÁÖ´Â vertex Á¤º¸ float±¸¼ºÀÌ´Ï 4x8
-                    Descriptor[0].InputSlot = 0;        //¿¬°áµÇ´Â ½½·Ô Á¤º¸
-                    Descriptor[0].AlignedByteOffset = 0;//¸î ¹ÙÀÌÆ®¸¦ ³Ñ¾î¾ß ³ª¿À´Â°¡
+                    Descriptor[0].SemanticName = "POSITION"; 
+                    Descriptor[0].SemanticIndex = 0; 
+                    Descriptor[0].Format = DXGI_FORMAT_R32G32_FLOAT; 
+                    Descriptor[0].InputSlot = 0;       
+                    Descriptor[0].AlignedByteOffset = 0;
                     Descriptor[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-                    Descriptor[0].InstanceDataStepRate = 0;//ÀÎ½ºÅÏ½º °ü·ÃµÈ ³»¿ëÀÎ°¡
+                    Descriptor[0].InstanceDataStepRate = 0;
 
 
                     Descriptor[1].SemanticName = "TEXCOORD";
                     Descriptor[1].SemanticIndex = 0;
                     Descriptor[1].Format = DXGI_FORMAT_R32G32_FLOAT;
                     Descriptor[1].InputSlot = 1;
-                    Descriptor[1].AlignedByteOffset = 0;//D3D11_APPEND_ALIGNED_ELEMENT; ¾ÕºÎºĞ ÈÄ ºÎºĞºÎÅÍ ÀĞ°ÔµÊ
+                    Descriptor[1].AlignedByteOffset = 0;
                     Descriptor[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
                     Descriptor[1].InstanceDataStepRate = 0;
 
@@ -253,8 +253,8 @@ namespace Engine::Rendering::Pipeline
                     (
                         Descriptor,
                         2,
-                        Bytecode,/*ÁöÁ¤ÇÑ»ö»ó°ú, VS³»ºÎ ³»¿ë°ú °°Àº ÁÖ¼Ò¸¦ ³Ö¾î¾ßÇÔ*/
-                        sizeof(Bytecode),  /*Æ÷ÀÎÅÍÀÇ »çÀÌÁî*/
+                        Bytecode,
+                        sizeof(Bytecode),  
                         &InputLayout
                     ));
 
@@ -270,7 +270,7 @@ namespace Engine::Rendering::Pipeline
                     (
                         Bytecode,
                         sizeof(Bytecode),
-                        nullptr,/*Classlinkage hlsl¿¡¼­ class»ı¼ºÀÌ °¡´É »ó¼ÓÇÏ¿© µ¿Àû½¦ÀÌµù(¾÷ÄÉ½ºÆÃ) ¸µÅ· »ç¿ëÇÒ¶§ »ç¿ë*/
+                        nullptr,
                         &VertexShader
                     ));
 
@@ -302,14 +302,14 @@ namespace Engine::Rendering::Pipeline
              
             }
 
-            {//Primitive Topology IA°ü·Ã »çÁø ÂüÁ¶
+            {//Primitive Topology
                 DeviceContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
             }
 
-            {//Vertex Buffer - À§Ä¡
+            {//Vertex Buffer-Coordinates
                 
 
-                float const Coordinates[4][2] //Á¤Á¡ÁÂÇ¥
+                float const Coordinates[4][2] 
                 {
                      {-0.5f, +0.5f },{+0.5f, +0.5f },
                      {-0.5f, -0.5f },{+0.5f, -0.5f }
@@ -337,11 +337,11 @@ namespace Engine::Rendering::Pipeline
                 UINT const Stride[] = { sizeof(*Coordinates) };
                 UINT const Offset[] = { 0 };
 
-                DeviceContext->IASetVertexBuffers(0, 1, &Buuffer, Stride/*Strides:¹öÆÛ ´çvertexÇÏ³ªÀÇ Å©±â*/, Offset/*°¢¹öÆÛº° »ı·«ÇÒ ¹öÆÛ¼ö*/);
-                //Pipeline¿¡ ¹öÆÛ¸¦ °áÇÕ DX11±âÁØ 32°³±îÁö °¡´É ±âº»ÀûÀ¸·Î ÀüºÎ ¹è¿­·Î Ã³¸®ÇÏ¹Ç·Î Æ÷ÀÎÆ®·Î »ç¿ëÇÔ.
+                DeviceContext->IASetVertexBuffers(0, 1, &Buuffer, Stride, Offset);
+            
 
             }
-            {//Vertex Buffer - »ö»ó
+            {//Vertex Buffer-Color
 
                 D3D11_BUFFER_DESC const Descriptor
                 {
@@ -354,13 +354,13 @@ namespace Engine::Rendering::Pipeline
                 
        
 
-                MUST(Device->CreateBuffer(&Descriptor, nullptr, &Buffer::Vertex));//¹öÆÛ»ı¼º
+                MUST(Device->CreateBuffer(&Descriptor, nullptr, &Buffer::Vertex));
 
                 UINT const Stride[] = { sizeof(float[2]) };
                 UINT const Offset[] = { 0 };
 
-                DeviceContext->IASetVertexBuffers(1, 1, &Buffer::Vertex,Stride/*Strides:¹öÆÛ ´çvertexÇÏ³ªÀÇ Å©±â*/,Offset/*°¢¹öÆÛº° »ı·«ÇÒ ¹öÆÛ¼ö*/);
-                //Pipeline¿¡ ¹öÆÛ¸¦ °áÇÕ DX11±âÁØ 32°³±îÁö °¡´É ±âº»ÀûÀ¸·Î ÀüºÎ ¹è¿­·Î Ã³¸®ÇÏ¹Ç·Î Æ÷ÀÎÆ®·Î »ç¿ëÇÔ.
+                DeviceContext->IASetVertexBuffers(1, 1, &Buffer::Vertex,Stride,Offset);
+           
 
             }
             {
@@ -403,7 +403,7 @@ namespace Engine::Rendering::Pipeline
         }
         case WM_DESTROY:        
         {
-            DeviceContext->ClearState();// pipeline ÃÊ±âÈ­ °áÇÕµÈ °úÁ¤ ÀüºÎ Á¦°Å 
+            DeviceContext->ClearState();
 
             RenderTargetView->Release();
 
@@ -446,10 +446,7 @@ namespace Engine::Rendering::Pipeline
                 if (RenderTargetView != nullptr)
                 {
                     RenderTargetView->Release();
-                    /*
-                      resizebuffer Á¦¾àÁ¶°Ç
-                      SwapChain¿¡ ¿¬°èµÈ ¾î¶²°Íµµ ¾ø¾î¾ß »ı¼º°¡´ÉÇÏ±â¿¡ Release¸¦ ÇØÁÖ´Â°Í
-                    */
+
                     MUST(SwapChain->ResizeBuffers
                     (
                         1,
@@ -463,11 +460,11 @@ namespace Engine::Rendering::Pipeline
                 {
                     ID3D11Texture2D* Texture2D = nullptr;
 
-                    MUST(SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&Texture2D))); //IID_PPV_ARGS(&Texture2D)¸ÅÅ©·Î Çü½Ä
+                    MUST(SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&Texture2D))); 
                     {
                         IDXGISurface1* Surface = nullptr;
-                        MUST(Texture2D->QueryInterface(IID_PPV_ARGS(&Surface))); // ÇØ´ç ÀÎÅÍÆäÀÌ½º¸¦ °¡Áö°í ÀÖ´Ù¸é ¹Ş¾Æ¿Â´Ù
-                        {//ÅØ½ºÆ® ¹è°æÀ» Åõ¸íÀ¸·Î ¼³Á¤ÇÏ´Â ±¸¿ª
+                        MUST(Texture2D->QueryInterface(IID_PPV_ARGS(&Surface))); 
+                        {
                             HDC hDC = HDC();
 
                             MUST(Surface->GetDC(false, &hDC));
@@ -482,7 +479,7 @@ namespace Engine::Rendering::Pipeline
                     }
                     Texture2D->Release();
 
-                    DeviceContext->OMSetRenderTargets(1, &RenderTargetView, nullptr/*2Â÷¿øÀÌ¾î¼­ ³Î*/);
+                    DeviceContext->OMSetRenderTargets(1, &RenderTargetView, nullptr);
       
                 }
             }
