@@ -14,10 +14,18 @@ public:
 	virtual  Stage* Update()  final override;
 	virtual   void	    End() final override;
 
-public:
-	Engine::Rendering::Image::Component Map;
-	Engine::Physics::Component<Quadrangle> Ground;
-	Engine::Rendering::Image::Component Groundphysics;
+
+	Engine::Rendering::Animation::Component_Window MissionStart;
+	Engine::Rendering::Animation::Component_Window Clear;
+	Engine::Rendering::Image::Component_Window Hpbar;
+	Engine::Rendering::Image::Component_Window Hp;
+	Engine::Rendering::Image::Component_Window PlayerImage;
+	float delay = 0.0f;
+
+
+	
+	float MaxHp = 0.0f;
+
 public:
 	Stage1();
 	bool Wavve1 = false;
@@ -30,16 +38,13 @@ public:
 	unsigned int  Count = 0;
 
 	class Actor* Player = nullptr;
-	class Bullet* bullet = nullptr;
-	
-	class Effect* effect = nullptr;
 
 	class Actor* EnemySoldier[40] = { 0 };
 	class Actor* EnemyTank[10] =    { 0 };
 	class Actor* Boss = nullptr;
 
 	
-
+	class Cam *Slugcam= nullptr;
 
 	class StageCam :public Cam
 	{
@@ -58,7 +63,6 @@ public:
 		{
 		}
 	}stageCam1;
-
 	class StageCam2 :public Cam
 	{
 	public:
@@ -76,6 +80,8 @@ public:
 		{
 		}
 	}stageCam2;
+
+
 
 
 };
