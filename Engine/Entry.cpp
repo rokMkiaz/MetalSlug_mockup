@@ -4,88 +4,65 @@ namespace Engine
 {
     LRESULT CALLBACK Procedure(HWND const, UINT const, WPARAM const, LPARAM const);
 }
-/*
-  cdecl:ÀÏ¹İÇÔ¼ö¿¡ ±âº»ÀûÀ¸·Î Àû¿ë
-  stdcall:Windows APIÇÔ¼ö
-  this call:¸É¹öÇÔ¼ö
-*/
 
 int APIENTRY WinMain
 (
-    _In_     HINSTANCE const hInstance,//ÇØ´ç À©µµ¿ì°¡ ¾î´À ÇÁ·Î±×·¥¿¡ ¼ÓÇÏ´ÂÁö ¾Ë·ÁÁÖ´Â ID°ª
+    _In_     HINSTANCE const hInstance,
     _In_opt_ HINSTANCE const hPrevInstance,
-    _In_     LPSTR     const lpCmdLine, // ¸í·É¾î ±âÀÔ
-    _In_     int       const nShowCmd //À©µµ¿ì ÃÖ¼ÒÈ­,ÃÖ´ëÈ­
+    _In_     LPSTR     const lpCmdLine, 
+    _In_     int       const nShowCmd 
 )
-// WinBase.hÆÄÀÏ¿¡¼­ ctrl f·Î WinMain¸¸ Ãß°¡
-/*
-  _In_ : À¯ÀÇ¹ÌÇÑ Æ÷ÀÎÅÍ¿©¾ß ÇÑ´Ù.
-  _In_opt_ : ¹«°ü
-*/
 
-
-/*
-  Register -> Create ->Show -> Run ->(Close -> Destory -> Unregister) 
-*/
 {
     HWND hWindow = nullptr;
     {
         WNDCLASSEX Class = WNDCLASSEX();
 
-        Class.cbSize          = sizeof(WNDCLASSEX); //count byte ¹ÙÀÌÆ®´ÜÀ§ ¼ö;
-        Class.style           = 0      ;            //CS_HREDRAW | CS_VREDRAW; ½ºÅ¸ÀÏ ºñÆ®¸¶½ºÅ·
-        Class.lpfnWndProc     = Engine::Procedure;  //À©µµ¿ì ¸Ş¼¼Áö Ã³¸® ±¸¿ª call back¹æ½Ä
+        Class.cbSize          = sizeof(WNDCLASSEX); 
+        Class.style           = 0      ;           
+        Class.lpfnWndProc     = Engine::Procedure;  
         Class.cbClsExtra      = 0;
         Class.cbWndExtra      = 0;
         Class.hInstance       = hInstance;  
-        Class.hIcon           = LoadIcon(nullptr/*±âº»Àº nullÆ÷ÀÎÅÍ*/,IDI_APPLICATION);
+        Class.hIcon           = LoadIcon(nullptr/*ê¸°ë³¸ì€ nullí¬ì¸í„°*/,IDI_APPLICATION);
         Class.hCursor         = LoadCursor(nullptr,IDC_ARROW);
-        Class.hbrBackground   = static_cast<HBRUSH>/*Çüº¯È¯*/(GetStockObject(BLACK_BRUSH))/*void pointer ->HBRUSH·Î º¯È¯*/;//À©µµ¿ì ¹é±×¶ó¿îµå»ö
+        Class.hbrBackground   = static_cast<HBRUSH>/*í˜•ë³€í™˜*/(GetStockObject(BLACK_BRUSH));
         Class.lpszMenuName    = nullptr;
-        Class.lpszClassName   = "Window";          //class ÀÌ¸§   
-        Class.hIconSm         = LoadIcon(nullptr/*±âº»Àº nullÆ÷ÀÎÅÍ*/, IDI_APPLICATION); //Ã¢¿·¿¡ ¶ç¿ì´Â ÀÛÀº ¾ÆÀÌÄÜ
+        Class.lpszClassName   = "Window";          
+        Class.hIconSm         = LoadIcon(nullptr, IDI_APPLICATION); 
 
-        RegisterClassEx(&Class);//À©µµ¿ì¿¡ µî·Ï 
+        RegisterClassEx(&Class);
     }
     {
-        CREATESTRUCT Window = CREATESTRUCT();    //À©µµ¿ì »ı¼ºÀÚ È£ÃâÀ» À§ÇÑ ÇÔ¼ö
+        CREATESTRUCT Window = CREATESTRUCT();    //ìœˆë„ìš° ìƒì„±ì í˜¸ì¶œì„ ìœ„í•œ í•¨ìˆ˜
 
      
-        Window.dwExStyle                =  0 ;                     //Ã¢È£ÃâÀ» ¾î´À¼øÀ¸·Î ÇÏ´ÂÁö
-        Window.lpszClass                = "Window" ;               //¾î¶² Å¬·¡½ºÀÌ¸§À» µû¸¦Áö ÁöÁ¤
-        Window.lpszName                 = "MetalSlug_NamPortfolio"  ;                // °´Ã¼ ÀÌ¸§
+        Window.dwExStyle                =  0 ;                    
+        Window.lpszClass                = "Window" ;               
+        Window.lpszName                 = "MetalSlug_NamPortfolio"  ;              
         Window.style                    = WS_SYSMENU | WS_CAPTION; 
-        /*
-          WS_OVERLAPPEDWINDOW =; //Åë»óÀûÀÎ À©µµ¿ìÃ¢(ºñÆ®¸¶½ºÅ· ±¸Á¶·Î µÇ¾îÀÖÀ½)
-          WS_OVERLAPPED   : À©µµ¿ì °ãÄ§
-          WS_CAPTION      : Á¦¸ñÇ¥½ÃÁÙÀÌ ÀÖ³ª ¾ø³ª/±×·¯³ª ½Ã½ºÅÛÃ¢ Å©±â°è»ê½Ã ¸ÂÃâ·Á¸é ÇÊ¼ö·Î ÀÔ·ÂÇØ¾ßÇÔ.
-          WS_SYSMENU      : x¹öÆ° À¯¹«
-          WS_THICKFRAME   : ½Ã½ºÅÛÃ¢ ÁÙÀÌ±â Å°¿ì±â
-          WS_MINIMIZEBOX  : ÃÖ¼ÒÈ­, ÃÖ´ëÈ­ ¹öÆ°
-          WS_MAXIMIZEBOX)
-        */
-        Window.x                        = 0      ;   //CreateWindow
+        Window.x                        = 0      ;  
         Window.y                        = 0      ;   
-        Window.cx                       = 1280   ;   //»çÀÌÁî
+        Window.cx                       = 1280   ;   
         Window.cy                       = 720    ;   
-        Window.hwndParent               = nullptr ;  //ºÎ¸ğ À©µµ¿ì, ÃÖ»óÀ§ À©µµ¿ì¿¡°Ô´Â ÇÊ¿ä ¾øÀ½. EX)¼³Á¤Ã¢
-        Window.hMenu                    = nullptr ;  //¸Ş´º
+        Window.hwndParent               = nullptr ;  
+        Window.hMenu                    = nullptr ;  
         Window.hInstance                = hInstance; 
-        Window.lpCreateParams           = nullptr;   // ¼³¸íÀº ³ªÁß¿¡
+        Window.lpCreateParams           = nullptr;   
 
         {
-            RECT Rect = RECT(); //ÀÛ¾÷¿µ¿ª¿¡ Á¦ÇÑµÇÁö ¾Ê°Ô ¸¸µé±â À§ÇØ ¼±¾ğ
+            RECT Rect = RECT(); 
             Rect.left = 0;
             Rect.top = 0;
             Rect.right = Window.cx;
             Rect.bottom = Window.cy;
               
-            AdjustWindowRectEx(&Rect, Window.style, false/*Ã¢ ³»ºÎ ¸Ş´º°¡ ÀÖ´ÂÁö*/, Window.dwExStyle); //ÀÛ¾÷¿µ¿ªÀ» ¾Ë·ÁÁÖ±â À§ÇÑ ¼öÁ¤°ª°è»êÀ» À§ÇØ &Rect¸¦ º¸³»ÁÖ¾î Á¶Á¤ÇÏ´Â °Í
+            AdjustWindowRectEx(&Rect, Window.style, false, Window.dwExStyle); 
             Window.cx = Rect.right - Rect.left;
             Window.cy = Rect.bottom - Rect.top;
 
-            Window.x = (GetSystemMetrics(SM_CXSCREEN) - Window.cx) / 2;   //(È­¸é ÇØ»óµµ(W)-¿øÇÏ´Â È­¸é °¡·ÎÃà)/2
-            Window.y = (GetSystemMetrics(SM_CYSCREEN) - Window.cy) / 2;   //(È­¸é ÇØ»óµµ(H)-¿øÇÏ´Â È­¸é ¼¼·ÎÃà)/2
+            Window.x = (GetSystemMetrics(SM_CXSCREEN) - Window.cx) / 2;  
+            Window.y = (GetSystemMetrics(SM_CYSCREEN) - Window.cy) / 2;   
         }
 
 
@@ -104,38 +81,35 @@ int APIENTRY WinMain
             Window.hMenu,
             Window.hInstance,
             Window.lpCreateParams
-         );  //Create ¸Ş¼¼Áö ¹ß¼Û½ÃÁ¡
-        ShowWindow(hWindow, SW_RESTORE); //Cmd Show°ª ÇÃ·¡±×
+         );  
+        ShowWindow(hWindow, SW_RESTORE); 
 
 
     }
 
 
     {
-        //¿î¿µÃ¼Á¦·ÎºÎÅÍ ¸Ş¼¼Áö¸¦ ¹Ş´Â À§Ä¡, Message loof Áö¿ª
-
-        MSG Message = MSG(); // »ı¼ºµÇ´Â ¸ğµç ¸â¹ö¸¦ 0À¸·Î ÃÊ±âÈ­
-        //W,L PARAM 
-        //WM_QUIT;
-
-        while (true)//¸Ş¼¼Áö Æ÷ÀÎÅÍ, ¾î´À À©µµ¿ì Á¤º¸ ¹ŞÀ»°ÍÀÎÁö, message¸¦ ¸î¹øºÎÅÍ ¸î¹ø±îÁö ¹ŞÀ»Áö ¼³Á¤//¸Ş¼¼Áö¸¦ ¼º°øÀûÀ¸·Î ¹ŞÀ¸¸é 1,¸Ş¼¼Áö°¡ ¾øÀ¸¸é ¹«ÇÑ ´ë±â
+        
+        MSG Message = MSG(); 
+       
+        
+        while (true)
         {
-            //Peek   Remove¸é GetMessage¿Í °°Àº ÇÔ¼ö
+           
             if (PeekMessage(&Message, nullptr, WM_NULL, WM_NULL,PM_REMOVE))
             {
                 if (Message.message == WM_QUIT)
-                    return static_cast<int>(Message.wParam);//64ºñÆ®±¸¼º¿¡¼­´Â  static_cast<int>ÇØÁà¾ßÇÔ
+                    return static_cast<int>(Message.wParam);
 
-                DispatchMessage(&Message); //¸Ş¼¼ÁöÅ¥¿¡¼­ ÇØ´çÇÏ´Â wndProc·Î ¸Ş¼¼Áö¸¦ º¸³»ÁÜ
+                DispatchMessage(&Message); 
             }
-            else //¸Ş¼¼ÁöÅ¥°¡ ºñ¾úÀ» ¶§ ´ÙÀÌ·ºÆ®·Î º¸³»°Ô ÇØÁÖ±âÀ§ÇØ SendMessage¸¦ »ç¿ëÇÑ´Ù. À©µµ¿ì ¸Ş¼¼Áö Ã³¸®ÇÒ°Ô ¾øÀ» ¶§ ¾÷µ¥ÀÌÆ®¸¦ ¸ñÀûÀ¸·Î ¸¸µë
+            else
             {
-              //PostMessage(hWindow, WM_APP, 0, 0); //¸Ş¼¼ÁöÅ¥¿¡ º¸³½ ÀÌÈÄ ¸Ş¼¼Áö¸¦ º¸³½´Ù
-                SendMessage(hWindow, WM_APP, 0, 0); //¹Ù·Î Proc ¸Ş¼¼Áö¸¦ º¸³½´Ù WM_APP:»ç¿ëÀÚ Á¤ÀÇ ¸Ş¼¼Áö(0x8000,0xbfff ±îÁö)
+              //PostMessage(hWindow, WM_APP, 0, 0); 
+                SendMessage(hWindow, WM_APP, 0, 0);
             }
         }
-        //¾î´À Å¬·¡½º¿¡¼­ ¸¸µé¾îÁ³´ÂÁö, ¾îµğ¿¡ Á¸ÀçÇÏ´ÂÁö ¾Ë°ÔµÊ.
-
+      
 
         return static_cast<int>(Message.wParam);
 
