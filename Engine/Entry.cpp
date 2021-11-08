@@ -24,9 +24,9 @@ int APIENTRY WinMain
         Class.cbClsExtra      = 0;
         Class.cbWndExtra      = 0;
         Class.hInstance       = hInstance;  
-        Class.hIcon           = LoadIcon(nullptr/*기본은 null포인터*/,IDI_APPLICATION);
+        Class.hIcon           = LoadIcon(nullptr,IDI_APPLICATION);
         Class.hCursor         = LoadCursor(nullptr,IDC_ARROW);
-        Class.hbrBackground   = static_cast<HBRUSH>/*형변환*/(GetStockObject(BLACK_BRUSH));
+        Class.hbrBackground   = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
         Class.lpszMenuName    = nullptr;
         Class.lpszClassName   = "Window";          
         Class.hIconSm         = LoadIcon(nullptr, IDI_APPLICATION); 
@@ -34,7 +34,7 @@ int APIENTRY WinMain
         RegisterClassEx(&Class);
     }
     {
-        CREATESTRUCT Window = CREATESTRUCT();    //윈도우 생성자 호출을 위한 함수
+        CREATESTRUCT Window = CREATESTRUCT();   
 
      
         Window.dwExStyle                =  0 ;                    
