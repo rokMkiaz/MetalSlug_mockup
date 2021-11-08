@@ -9,6 +9,9 @@ public:
 	virtual   void	    End() abstract;
 
 
+	bool end = false;
+
+
 
 };
 

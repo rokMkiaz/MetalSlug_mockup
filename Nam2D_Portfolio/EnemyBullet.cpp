@@ -71,13 +71,13 @@ namespace Enemybullet
 		}
 		void SoldierBullet::End()
 		{
-
+			
 			effect->Start(Bolt.Location);
 
 			Bolt.Location = Vector<2>(0, 0);
-
-
 			Hit.Center = { Bolt.Location[0],Bolt.Location[1] };
+
+
 
 
 			Bolt.Angle = 0.0f;
@@ -149,7 +149,7 @@ namespace Enemybullet
 		}
 		void TankBullet::Start(Vector<2> location, float angle)
 		{
-			Damage = 2;
+			Damage = 1;
 			Bolt.Location = location;
 			FireAngle = angle;
 
@@ -222,7 +222,7 @@ namespace Enemybullet
 		}
 		void TankEffect::Start(Vector<2> location)
 		{
-			Damage = 2;
+			Damage = 1;
 			effect.Location = { location[0],location[1] + (effect.Length[1] / 2) - 15.0f };
 
 

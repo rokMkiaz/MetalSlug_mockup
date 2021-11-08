@@ -1,4 +1,5 @@
 #include "Engine/Game.h"
+#include "Engine/Rendering.h"
 
 
 
@@ -10,5 +11,8 @@ public:
      void    End() final override;
 
 private:
-    class Stage* Now = nullptr; //STAGE  ¶Ç´Â ÇÑ¸Ê
+    class Stage* Now = nullptr; 
+
+ 
+
 };

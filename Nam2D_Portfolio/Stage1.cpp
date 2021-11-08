@@ -1,9 +1,9 @@
 #include "Engine\Rendering.h"
 #include "Stage1.h"
+#include"EndingStage.h"
 
 
 #include "Slug.h"
-#include"SlugBullet.h"
 #include "Enemy.h"
 #include "Boss.h"
 
@@ -484,8 +484,13 @@ Stage* Stage1::Update()
 	{
 		MissionStart.Render();
 	}
-	//if (delay > 2.0f)delay = 0.0f;
+	if (delay > 5.0f)delay = 0.0f;
 	if (Boss->Hp <= 0)
+	{
+		if (BossDie == false)delay = 0.0f;
+		BossDie = true;
+	}
+	if(BossDie==true)
 	{
 		Player->Hp = 10;
 		Hp.Location = Vector<2>(193, 60);
@@ -495,9 +500,20 @@ Stage* Stage1::Update()
 		if (Clear.Playback > 0.9f)
 		{
 			Clear.Playback = 0.9f;
-			//return new Stage1;
+			if(delay>4.0f)return new Clear::ClearStage;
 		}
 	}
+	if (Player->Hp <= 0)
+	{
+		if(PlayerDie==false)delay = 0.0f;
+		PlayerDie = true;
+	}
+	if(PlayerDie==true)
+	{
+
+		if (delay > 4.0f) return new Lose::LoseStage;
+	}
+
 	Player->Look->cam.Set();
 	if (Player->Location() <= 700.f)	stageCam1.cam.Set();
 	if (Player->Location() >= 2700.f)	stageCam2.cam.Set();

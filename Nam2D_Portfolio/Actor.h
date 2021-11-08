@@ -4,6 +4,7 @@
 
 #include"Bullet.h"
 #include"Effect.h"
+#include "Cam.h"
 
 class Actor abstract
 {
@@ -20,6 +21,7 @@ public:
 
 	Bullet*  bullet1 =  nullptr;
 	Bullet * bullet2[15]; 
+	Cam* Look;
 
 	int Hp = 0;
 

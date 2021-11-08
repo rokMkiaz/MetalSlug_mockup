@@ -22,6 +22,8 @@
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
+    <ClCompile Include="EndingStage.cpp" />
+    <ClCompile Include="Mainmenu.cpp" />
     <ClCompile Include="SlugBullet.cpp" />
     <ClCompile Include="Slug.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -36,6 +38,8 @@
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBullet.h" />
+    <ClInclude Include="EndingStage.h" />
+    <ClInclude Include="Mainmenu.h" />
     <ClInclude Include="SlugBullet.h" />
     <ClInclude Include="Slug.h" />
     <ClInclude Include="Engine\Circle.h" />

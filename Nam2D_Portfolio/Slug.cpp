@@ -5,6 +5,7 @@
 
 
 
+
 Slug::Slugarray::Slugarray()
 {
 	Skin.Name = "Animation/SlugFile/Body/Idle";
@@ -55,7 +56,7 @@ void Slug::Slugarray::Moving(float const speed, Vector<2> vector)
 {
 
 
-	Skin.Location += Vector<2>(speed * vector[0], speed * vector[1]) * Engine::Time::Get::Delta();;
+	Skin.Location +=  Vector<2>(speed * vector[0], speed * vector[1]) * Engine::Time::Get::Delta();
 
 	if (speed * vector[0] > 0 && Gun.Angle <= 180.0f && Gun.Angle >= 0.0f)
 	{
@@ -82,7 +83,7 @@ void Slug::Slugarray::Moving(float const speed, Vector<2> vector)
 	
 	Shoteffect.Location= Skin.Location + Vector<2>(70, 20);
 	
-	Hitbox.Center= { Skin.Location[0] - 5,Skin.Location[1] };
+	if (invincible == false)Hitbox.Center= { Skin.Location[0] - 5,Skin.Location[1] };
 	//Demo
 	Hitboxprint.Location = Skin.Location - Vector<2>(5, 0);
 
@@ -101,8 +102,7 @@ void Slug::Slugarray::Rendering(SlugState state)
 
 		Skin.Render();
 		Gun.Render();
-		//Hitbox.Center = { Skin.Location[0] - 5,Skin.Location[1] };
-
+	
 		
 		break;
 	}
@@ -124,7 +124,8 @@ void Slug::Slugarray::Rendering(SlugState state)
 		Skin.Name = "Animation/SlugFile/Body/Fire";
 		Skin.Duration = 1.0f;
 
-
+		
+		
 
 		Skin.Render();
 		Shoteffect.Render();
@@ -138,16 +139,29 @@ void Slug::Slugarray::Rendering(SlugState state)
 		Vector<2> HitLocation= Skin.Location + Vector<2>(-8, 10);
 		Vector<2> Load = Skin.Location;
 	
-			Skin.Name = "Animation/SlugFile/Body/Hit";
-			Skin.Duration = 0.9f;
-			Skin.Length = Vector<2>(140, 120);
-			Skin.Location = HitLocation;
-			//Hitbox.Center = { -500,-500 };
 
-		
+			if (Die == true)
+			{
+				Skin.Name = "Animation/SlugFile/Body/SlugDie";
+				Skin.Length = Vector<2>(300, 300);
+				Skin.Location += Vector<2>(0, +Skin.Length[1] / 2-80);
+				Skin.Duration = 2.0f;
+				Skin.Repeatable = false;
+
+			}
+			else
+			{
+				Skin.Name = "Animation/SlugFile/Body/Hit";
+				Skin.Duration = 0.9f;
+				Skin.Length = Vector<2>(140, 120);
+				Skin.Location = HitLocation;
+			}
+			
+
+			
+
 		Skin.Render();
-		Gun.Render();
-
+		if(Die==false)Gun.Render();
 		Skin.Length = Vector<2>(100, 100);
 		Skin.Location = Load;
 
@@ -197,6 +211,7 @@ void Slug::Start()
 	bullet1 = &BBbullet;
 	Actorphysics = Slugbody->Hitbox;
 	
+	Look = &Slugcam;
 	Slugcam.Start();
 	
 
@@ -204,12 +219,12 @@ void Slug::Start()
 
 void Slug::Update()
 {
-
-	if (Slugbody->Skin.Location[0] < 2850.f && Slugbody->Skin.Location[0] >  (BossStage==true?2300.f:100.f))
+	
+	if (Slugbody->Skin.Location[0] < 2850.f && Slugbody->Skin.Location[0] >  (BossStage == true ? 2300.f : 100.f))
 	{
 		if (Slugbody->Skin.Location[0] > 2500.f)BossStage = true;
 
-		if ((Engine::Input::Get::Key::Press('A') || Engine::Input::Get::Key::Press('D') || Engine::Input::Get::Key::Down('J')) && Attackmotion == false && Hitmotion == false)
+		if ((Engine::Input::Get::Key::Press('A') || Engine::Input::Get::Key::Press('D') || Engine::Input::Get::Key::Down('J')) && Attackmotion == false && Hitmotion == false && Slugbody->Die == false)
 		{
 			if (Engine::Input::Get::Key::Press('A'))
 			{
@@ -221,43 +236,45 @@ void Slug::Update()
 				Slugbody->Moving(speed, Vector<2>(1, 0)), Slugbody->Rendering(Slug_Move);
 				if (Slugbody->invincible == true)Slugbody->Rendering(Slug_Invincible);
 			}
-			if (Engine::Input::Get::Key::Down('J'))
+			if (Engine::Input::Get::Key::Down('J') )
 			{
 				Slugbody->Skin.Playback = 0.1f, Attackmotion = true, BBbullet.Start(Slugbody->BombLocation() - Vector<2>(0, 10), 0.0f);
-				if (Slugbody->invincible == true)Slugbody->Rendering(Slug_Invincible);
+				
 			}
 
 		}
-		else if (Hitmotion == true)
+		else if (Hitmotion == true )
 		{
-			Slugbody->invincible = true;
+			if (Hp <= 0)Slugbody->Die = true, Hitmotion = true;
+			else Slugbody->invincible = true;
 			Slugbody->Rendering(Slug_Hit);
 			Slugbody->Rendering(Slug_Invincible);
 			if (Slugbody->Skin.Playback > 0.7f)Hitmotion = false;
 
 		}
 
-		else if (Attackmotion == false)
+		else if (Attackmotion == false && Slugbody->Die!=true)
 		{
 			Slugbody->Rendering(Slug_Idle);
 			if (Slugbody->invincible == true)Slugbody->Rendering(Slug_Invincible);
 		}
 	}
-	else if (Slugbody->Skin.Location[0] >= 2850.f)Slugbody->Moving(speed*200, Vector<2>(-1, 0)), Slugbody->Rendering(Slug_Move);
-	else if (Slugbody->Skin.Location[0] <= (BossStage == true ? 2300.f : 100.f))Slugbody->Moving(speed*200, Vector<2>(1, 0)), Slugbody->Rendering(Slug_Move);
+	else if (Slugbody->Skin.Location[0] >= 2850.f)Slugbody->Moving(speed , Vector<2>(-1, 0)), Slugbody->Rendering(Slug_Move);
+	else if (Slugbody->Skin.Location[0] <= (BossStage == true ? 2300.f : 100.f))Slugbody->Moving(speed, Vector<2>(1, 0)), Slugbody->Rendering(Slug_Move);
 
 
-	if (Attackmotion == true)
+	if (Attackmotion == true && Slugbody->Die!=true )
 	{
+		if (Slugbody->invincible == true)Slugbody->Rendering(Slug_Invincible);
 		BBbullet.Update();
-		Slugbody->Rendering(Slug_Attack);
+		if(Hitmotion != true)Slugbody->Rendering(Slug_Attack);
 		bullet1->Update();
 
 		if (Slugbody->Skin.Playback > 0.98f)Attackmotion = false,Slugbody->Shoteffect.Playback=0.0f;
 	}
 
 
-	if (Engine::Input::Get::Key::Press('K'))
+	if (Engine::Input::Get::Key::Press('K') && Slugbody->Die ==false )
 	{	
 
 		if (hmbullet[Fire].Fly == false)hmbullet[Fire].Start(Slugbody->HMGunLocation() + Vector<2>(0, Fire % 2 == 0 ? +5 : (Fire % 3 == 0 ? -5 : 0)), Slugbody->HMGunAngle());
@@ -287,7 +304,7 @@ void Slug::Update()
 	 
 	if (Slugbody->Skin.Location[0] > 700.f && Slugbody->Skin.Location[0] < 2700.f)Slugcam.cam.Location = Slugbody->Skin.Location + Vector<2>(0, 200), Slugcam.Update();
 
-	
+	Look = &Slugcam;
 }
 
 void Slug::End()

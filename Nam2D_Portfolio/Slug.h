@@ -46,6 +46,7 @@ public:
 
 		public:
 
+			bool Die = false;
 			bool invincible=false;
 			float InvincibleTime = 0.0f;
 
@@ -89,7 +90,9 @@ public:
 	int BulletNum = 14;
 	SlugBullet::HeavyMachineGun::HMBullet hmbullet[15];
 	SlugBullet::Bomb::BombBullet  BBbullet;
+
 	bool Hitmotion=false;
+
 	bool BossStage = false;
 
 	

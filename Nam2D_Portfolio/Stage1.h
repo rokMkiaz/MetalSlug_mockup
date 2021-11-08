@@ -27,11 +27,19 @@ public:
 	float MaxHp = 0.0f;
 
 public:
+	Engine::Rendering::Image::Component Map;
+	Engine::Physics::Component<Quadrangle> Ground;
+	Engine::Rendering::Image::Component Groundphysics;
+
+public:
 	Stage1();
 	bool Wavve1 = false;
 	bool Wavve2 = false;
 	bool Wavve3 = false;
 	bool BossStage = false;
+
+	bool PlayerDie = false;
+	bool BossDie = false;
 
 	float BossStageTime = 0.0f;
 
