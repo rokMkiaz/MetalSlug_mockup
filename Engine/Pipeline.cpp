@@ -1,4 +1,4 @@
-#include <cassert>    //주장하다
+#include <cassert>   
 #include <d3d11.h>
 
 #include"Pipeline.h"
@@ -12,7 +12,7 @@
 #endif
 
 
-//Engine 발생한 cpp를 필요한 곳에 중계해주는 곳
+
 namespace Engine::Rendering::Pipeline
 {
     namespace
@@ -27,15 +27,13 @@ namespace Engine::Rendering::Pipeline
         namespace Buffer
         {
             ID3D11Buffer* Vertex;            
-            //ID3D11Buffer* Index; 사용함에 있어 사실 필요없음
             ID3D11Buffer* Constant[3];
         }
 
         ID3D11RenderTargetView* RenderTargetView;
 
-        //파이프라인에서 우회하여 사용이 가능하지만 직접적으로 다룰려고 변수를 남겨둔것이다.
     }
-    namespace String  // 폰트
+    namespace String  // font
     {
         void Render(HFONT const hFont, LPCSTR const string, COLORREF const color, SIZE const& size, POINT const& center)
         {
@@ -58,9 +56,9 @@ namespace Engine::Rendering::Pipeline
                     Area.right  = center.x + size.cx / 2;
                     Area.bottom = center.y + size.cy / 2;
 
-                    UINT const Format = DT_WORDBREAK/*수평을 넘칠경우 내린다*/ | DT_NOPREFIX | DT_EDITCONTROL | DT_NOFULLWIDTHCHARBREAK;
+                    UINT const Format = DT_WORDBREAK | DT_NOPREFIX | DT_EDITCONTROL | DT_NOFULLWIDTHCHARBREAK;
                     
-                    DrawText(hDC, string, ~'\0', &Area, Format); //텍스트를 그리는 부분
+                    DrawText(hDC, string, ~'\0', &Area, Format); 
                 }
                 MUST(Surface->ReleaseDC(nullptr));
             }
@@ -176,7 +174,6 @@ namespace Engine::Rendering::Pipeline
         UINT const uMessage,
         WPARAM const wParameter,
         LPARAM const lParameter
-        /*W,L PARAM메세지별 세부 정보 정확한 내용은 내부적으로 나뉘어져있음*/
     )
 
     {
@@ -187,7 +184,7 @@ namespace Engine::Rendering::Pipeline
         {
             {
 
-                DXGI_SWAP_CHAIN_DESC Descriptor = DXGI_SWAP_CHAIN_DESC(); //0인것들 삭제
+                DXGI_SWAP_CHAIN_DESC Descriptor = DXGI_SWAP_CHAIN_DESC(); 
 
                 Descriptor.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
                 Descriptor.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
@@ -202,7 +199,7 @@ namespace Engine::Rendering::Pipeline
                 Descriptor.Flags = DXGI_SWAP_CHAIN_FLAG_GDI_COMPATIBLE; //Resize
 
 
-                MUST(D3D11CreateDeviceAndSwapChain /*디바이스와 스왑체인 동시생성*/
+                MUST(D3D11CreateDeviceAndSwapChain 
                 (
                     nullptr,
                     D3D_DRIVER_TYPE_HARDWARE,
@@ -237,8 +234,8 @@ namespace Engine::Rendering::Pipeline
                     (
                         Descriptor,
                         2,
-                        Bytecode,/*지정한색상과, VS내부 내용과 같은 주소를 넣어야함*/
-                        sizeof(Bytecode),  /*포인터의 사이즈*/
+                        Bytecode,
+                        sizeof(Bytecode),  
                         &InputLayout
                     ));
 
@@ -254,7 +251,7 @@ namespace Engine::Rendering::Pipeline
                     (
                         Bytecode,
                         sizeof(Bytecode),
-                        nullptr,/*Classlinkage hlsl에서 class생성이 가능 상속하여 동적쉐이딩(업케스팅) 링킹 사용할때 사용*/
+                        nullptr,
                         &VertexShader
                     ));
 
@@ -286,14 +283,14 @@ namespace Engine::Rendering::Pipeline
 
             }
 
-            {//Primitive Topology IA관련 사진 참조
+            {//Primitive Topology 
                 DeviceContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
             }
 
-            {//Vertex Buffer - 위치
+            {//Vertex Buffer - Coordinates
 
 
-                float const Coordinates[4][2] //정점좌표
+                float const Coordinates[4][2] 
                 {
                      {-0.5f, +0.5f },{+0.5f, +0.5f },
                      {-0.5f, -0.5f },{+0.5f, -0.5f }
@@ -322,11 +319,11 @@ namespace Engine::Rendering::Pipeline
                 UINT const Stride[] = { sizeof(*Coordinates) };
                 UINT const Offset[] = { 0 };
 
-                DeviceContext->IASetVertexBuffers(0, 1, &Buuffer, Stride/*Strides:버퍼 당vertex하나의 크기*/, Offset/*각버퍼별 생략할 버퍼수*/);
-                //Pipeline에 버퍼를 결합 DX11기준 32개까지 가능 기본적으로 전부 배열로 처리하므로 포인트로 사용함.
+                DeviceContext->IASetVertexBuffers(0, 1, &Buuffer, Stride, Offset);
+    
 
             }
-            {//Vertex Buffer - 색상
+            {//Vertex Buffer - Color
 
                 D3D11_BUFFER_DESC const Descriptor
                 {
@@ -339,13 +336,13 @@ namespace Engine::Rendering::Pipeline
 
 
 
-                MUST(Device->CreateBuffer(&Descriptor, nullptr, &Buffer::Vertex));//버퍼생성
+                MUST(Device->CreateBuffer(&Descriptor, nullptr, &Buffer::Vertex));
 
                 UINT const Stride[] = { sizeof(float[2]) };
                 UINT const Offset[] = { 0 };
 
-                DeviceContext->IASetVertexBuffers(1, 1, &Buffer::Vertex, Stride/*Strides:버퍼 당vertex하나의 크기*/, Offset/*각버퍼별 생략할 버퍼수*/);
-                //Pipeline에 버퍼를 결합 DX11기준 32개까지 가능 기본적으로 전부 배열로 처리하므로 포인트로 사용함.
+                DeviceContext->IASetVertexBuffers(1, 1, &Buffer::Vertex, Stride, Offset);
+         
 
             }
             {
@@ -388,7 +385,7 @@ namespace Engine::Rendering::Pipeline
         }
         case WM_DESTROY:
         {
-            DeviceContext->ClearState();// pipeline 초기화 결합된 과정 전부 제거 
+            DeviceContext->ClearState();
 
             RenderTargetView->Release();
 
@@ -431,10 +428,7 @@ namespace Engine::Rendering::Pipeline
                 if (RenderTargetView != nullptr)
                 {
                     RenderTargetView->Release();
-                    /*
-                      resizebuffer 제약조건
-                      SwapChain에 연계된 어떤것도 없어야 생성가능하기에 Release를 해주는것
-                    */
+                    
                     MUST(SwapChain->ResizeBuffers
                     (
                         1,
@@ -448,11 +442,11 @@ namespace Engine::Rendering::Pipeline
                 {
                     ID3D11Texture2D* Texture2D = nullptr;
 
-                    MUST(SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&Texture2D))); //IID_PPV_ARGS(&Texture2D)매크로 형식
+                    MUST(SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&Texture2D))); 
                     {
                         IDXGISurface1* Surface = nullptr;
-                        MUST(Texture2D->QueryInterface(IID_PPV_ARGS(&Surface))); // 해당 인터페이스를 가지고 있다면 받아온다
-                        {//텍스트 배경을 투명으로 설정하는 구역
+                        MUST(Texture2D->QueryInterface(IID_PPV_ARGS(&Surface))); 
+                        {
                             HDC hDC = HDC();
 
                             MUST(Surface->GetDC(false, &hDC));
@@ -467,7 +461,7 @@ namespace Engine::Rendering::Pipeline
                     }
                     Texture2D->Release();
 
-                    DeviceContext->OMSetRenderTargets(1, &RenderTargetView, nullptr/*2차원이어서 널*/);
+                    DeviceContext->OMSetRenderTargets(1, &RenderTargetView, nullptr);
 
                 }
             }
