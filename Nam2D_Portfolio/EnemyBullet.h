@@ -16,8 +16,8 @@ namespace Enemybullet
 
 			float FireAngle = 0.0f;
 			float speed = 980.f;
-			float acceleration = 1.0f;  //감속도
-			float gravity = 5.0f;     //중력
+			float acceleration = 1.0f;  
+			float gravity = 5.0f;     
 			float randboost = 0.0f;
 
 
@@ -55,8 +55,8 @@ namespace Enemybullet
 
 			float FireAngle = 0.0f;
 			float speed = 1200.f;
-			float acceleration = 1.0f;  //감속도
-			float gravity = 5.0f;     //중력
+			float acceleration = 1.0f;  
+			float gravity = 5.0f;    
 			float randboost = 0.0f;
 
 
@@ -96,7 +96,7 @@ namespace Enemybullet
 			float FireAngle = 0.0f;
 			float speed = 200.f;
 			float acceleration = 1.0f;  
-			float gravity = 5.0f;     //중력
+			float gravity = 5.0f;    
 
 
 
@@ -127,7 +127,7 @@ namespace Enemybullet
 			float speed = 800.f;
 			float Startpoint = 0.0f;
 			float acceleration = 1.0f;
-			float gravity = 5.0f;     //중력
+			float gravity = 5.0f;     
 
 
 
