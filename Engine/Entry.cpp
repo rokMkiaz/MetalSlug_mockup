@@ -53,7 +53,7 @@ int APIENTRY WinMain
      
         Window.dwExStyle                =  0 ;                     //창호출을 어느순으로 하는지
         Window.lpszClass                = "Window" ;               //어떤 클래스이름을 따를지 지정
-        Window.lpszName                 = "Game"  ;                // 객체 이름
+        Window.lpszName                 = "MetalSlug_NamPortfolio"  ;                // 객체 이름
         Window.style                    = WS_SYSMENU | WS_CAPTION; 
         /*
           WS_OVERLAPPEDWINDOW =; //통상적인 윈도우창(비트마스킹 구조로 되어있음)
