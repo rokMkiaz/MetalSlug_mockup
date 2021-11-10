@@ -280,12 +280,15 @@ namespace Enemy
             {
                 if (Bossbody->Search.Collide(PlayerTarget->Actorphysics))
                 {
+                    float const Mainguncooldown = 5.0f;
+                    float const Subcooldown = 1.5f;
+
                     if(Bossbody->Motion==false)MainGunFire += Engine::Time::Get::Delta();
                     if(Startshot[0].Fly==false || Startshot[8].Fly == false || SubBomb[0].Fly == false|| SubBomb[8].Fly==false)SubGunFire += Engine::Time::Get::Delta();
 
-                    if (MainGunFire > 5.0f)Bossbody->Motion = true, Bossbody->MainGun.Playback = 0.0f, MainGunFire = 0.0f;
+                    if (MainGunFire > Mainguncooldown)Bossbody->Motion = true, Bossbody->MainGun.Playback = 0.0f, MainGunFire = 0.0f;
 
-                    if (SubGunFire > 1.5f)
+                    if (SubGunFire > Subcooldown)
                     {
                        
                         if (SubBomb[0].Fly == true || SubBomb[1].Fly == true || SubBomb[2].Fly == true || SubBomb[3].Fly == true || SubBomb[4].Fly == true
@@ -321,7 +324,7 @@ namespace Enemy
         }
 
         if(Battle!=true)Bossbody->Rendering(Boss_Intro), Bossbody->Hitboxprint.Name = "Image/RBB";
-        //if (Engine::Input::Get::Key::Press('Q'))Intro = true; 
+       
         if (Bossbody->Body->Location[0]-PlayerTarget->Location()<=500.f && Battle==false)Intro = true;
 
         if (Intro == true)
