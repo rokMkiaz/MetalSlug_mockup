@@ -219,10 +219,15 @@ void Slug::Start()
 
 void Slug::Update()
 {
+	float const MovingMax = 2850.f;
+	float const MovingMin = 100.f;
+	float const BossStageMin = 2300.f;
+	float const BossStageStart = 2500.f;
+
 	
-	if (Slugbody->Skin.Location[0] < 2850.f && Slugbody->Skin.Location[0] >  (BossStage == true ? 2300.f : 100.f))
+	if (Slugbody->Skin.Location[0] < MovingMax && Slugbody->Skin.Location[0] >  (BossStage == true ? BossStageMin : MovingMin))
 	{
-		if (Slugbody->Skin.Location[0] > 2500.f)BossStage = true;
+		if (Slugbody->Skin.Location[0] > BossStageStart)BossStage = true;
 
 		if ((Engine::Input::Get::Key::Press('A') || Engine::Input::Get::Key::Press('D') || Engine::Input::Get::Key::Down('J')) && Attackmotion == false && Hitmotion == false && Slugbody->Die == false)
 		{
@@ -249,7 +254,8 @@ void Slug::Update()
 			else Slugbody->invincible = true;
 			Slugbody->Rendering(Slug_Hit);
 			Slugbody->Rendering(Slug_Invincible);
-			if (Slugbody->Skin.Playback > 0.7f)Hitmotion = false;
+			if (Slugbody->Skin.Playback > Slugbody->Skin.Duration-0.1f)Hitmotion = false;
+	
 
 		}
 
@@ -259,8 +265,8 @@ void Slug::Update()
 			if (Slugbody->invincible == true)Slugbody->Rendering(Slug_Invincible);
 		}
 	}
-	else if (Slugbody->Skin.Location[0] >= 2850.f)Slugbody->Moving(speed , Vector<2>(-1, 0)), Slugbody->Rendering(Slug_Move);
-	else if (Slugbody->Skin.Location[0] <= (BossStage == true ? 2300.f : 100.f))Slugbody->Moving(speed, Vector<2>(1, 0)), Slugbody->Rendering(Slug_Move);
+	else if (Slugbody->Skin.Location[0] >= MovingMax)Slugbody->Moving(speed , Vector<2>(-1, 0)), Slugbody->Rendering(Slug_Move);
+	else if (Slugbody->Skin.Location[0] <= (BossStage == true ? BossStageMin : MovingMin))Slugbody->Moving(speed, Vector<2>(1, 0)), Slugbody->Rendering(Slug_Move);
 
 
 	if (Attackmotion == true && Slugbody->Die!=true )
@@ -270,13 +276,13 @@ void Slug::Update()
 		if(Hitmotion != true)Slugbody->Rendering(Slug_Attack);
 		bullet1->Update();
 
-		if (Slugbody->Skin.Playback > 0.98f)Attackmotion = false,Slugbody->Shoteffect.Playback=0.0f;
+		if (Slugbody->Skin.Playback > Slugbody->Skin.Duration-0.1f)Attackmotion = false,Slugbody->Shoteffect.Playback=0.0f;
 	}
 
 
 	if (Engine::Input::Get::Key::Press('K') && Slugbody->Die ==false )
 	{	
-		float cooldown = 0.15f;
+		float const cooldown = 0.15f;
 		if (hmbullet[Fire].Fly == false)hmbullet[Fire].Start(Slugbody->HMGunLocation() + Vector<2>(0, Fire % 2 == 0 ? +5 : (Fire % 3 == 0 ? -5 : 0)), Slugbody->HMGunAngle());
 		
 	
