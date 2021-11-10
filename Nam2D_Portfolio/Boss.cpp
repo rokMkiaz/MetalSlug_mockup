@@ -280,8 +280,8 @@ namespace Enemy
             {
                 if (Bossbody->Search.Collide(PlayerTarget->Actorphysics))
                 {
-                    MainGunFire += Engine::Time::Get::Delta();
-                    SubGunFire += Engine::Time::Get::Delta();
+                    if(Bossbody->Motion==false)MainGunFire += Engine::Time::Get::Delta();
+                    if(Startshot[0].Fly==false || Startshot[8].Fly == false || SubBomb[0].Fly == false|| SubBomb[8].Fly==false)SubGunFire += Engine::Time::Get::Delta();
 
                     if (MainGunFire > 5.0f)Bossbody->Motion = true, Bossbody->MainGun.Playback = 0.0f, MainGunFire = 0.0f;
 
