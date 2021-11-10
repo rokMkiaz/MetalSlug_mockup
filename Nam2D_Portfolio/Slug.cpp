@@ -276,14 +276,13 @@ void Slug::Update()
 
 	if (Engine::Input::Get::Key::Press('K') && Slugbody->Die ==false )
 	{	
-
+		float cooldown = 0.15f;
 		if (hmbullet[Fire].Fly == false)hmbullet[Fire].Start(Slugbody->HMGunLocation() + Vector<2>(0, Fire % 2 == 0 ? +5 : (Fire % 3 == 0 ? -5 : 0)), Slugbody->HMGunAngle());
 		
-
 	
 		delay += 1*Engine::Time::Get::Delta();
 
-		if (delay >= 0.15f)Fire++, delay = 0.0f; //사격속도 조정
+		if (delay >= cooldown)Fire++, delay = 0.0f; 
 		if (Fire > BulletNum)Fire = 0;
 		
 
