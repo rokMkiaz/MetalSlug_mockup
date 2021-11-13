@@ -283,12 +283,14 @@ void Slug::Update()
 	if (Engine::Input::Get::Key::Press('K') && Slugbody->Die ==false )
 	{	
 		float const cooldown = 0.15f;
-		if (hmbullet[Fire].Fly == false)hmbullet[Fire].Start(Slugbody->HMGunLocation() + Vector<2>(0, Fire % 2 == 0 ? +5 : (Fire % 3 == 0 ? -5 : 0)), Slugbody->HMGunAngle());
+	
+
+		if (hmbullet[Fire].Fly == false && HMBulletSwitch==false)hmbullet[Fire].Start(Slugbody->HMGunLocation() + Vector<2>(0, Fire % 2 == 0 ? +5 : (Fire % 3 == 0 ? -5 : 0)), Slugbody->HMGunAngle()), HMBulletSwitch=true;
 		
 	
 		delay += 1*Engine::Time::Get::Delta();
 
-		if (delay >= cooldown)Fire++, delay = 0.0f; 
+		if (delay >= cooldown)Fire++, delay = 0.0f, HMBulletSwitch = false;
 		if (Fire > BulletNum)Fire = 0;
 		
 
