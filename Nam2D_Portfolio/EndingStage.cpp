@@ -7,6 +7,7 @@
 
 namespace Lose
 {
+
     void LoseStage::Start()
     {
         

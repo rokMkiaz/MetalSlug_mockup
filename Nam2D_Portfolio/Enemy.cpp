@@ -152,6 +152,12 @@ namespace Enemy
 		}
 
 
+		Soldier::~Soldier()
+		{
+			delete Soldierbody;
+			Soldierbody = NULL;
+		}
+
 		void Soldier::Start()
 		{
 			Soldierbody = new Soldierarray;
@@ -379,6 +385,12 @@ namespace Enemy
 	
 			}
 
+		}
+
+		Tank::~Tank()
+		{
+			delete Tankbody;
+			Tankbody = NULL;
 		}
 
 		void Tank::Start()

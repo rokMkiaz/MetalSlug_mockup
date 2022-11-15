@@ -9,6 +9,7 @@ namespace Lose
 	class LoseStage : public Stage
 	{
 
+
 		virtual void Start()    final override;
 		virtual Stage* Update() final override;
 		virtual void End()      final override;
@@ -27,6 +28,8 @@ namespace Clear
 {
 	class ClearStage : public Stage
 	{
+	
+
 		virtual void Start()     override;
 		virtual Stage* Update()  override;
 		virtual void End()       override;

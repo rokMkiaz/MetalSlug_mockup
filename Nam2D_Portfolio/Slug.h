@@ -24,7 +24,7 @@ namespace
 }
 class Slug final:    public Actor
 {
-
+	~Slug();
 
 
 public:
@@ -84,8 +84,13 @@ public:
 
 	
 public:
+	//Bomb
 	float delay = 0.0f;
+
+	//HM
 	int Fire = 0;
+	bool HMBulletSwitch = false;
+
 
 	int BulletNum = 14;
 	SlugBullet::HeavyMachineGun::HMBullet hmbullet[15];

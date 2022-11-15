@@ -9,6 +9,12 @@
 #include "Game.h"
 
 
+Game::~Game()
+{
+    delete Now;
+    Now = NULL;
+}
+
 void Game::Start()
 {	
     Now = new Mainmenu;

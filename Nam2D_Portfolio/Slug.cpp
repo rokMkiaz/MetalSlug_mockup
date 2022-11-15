@@ -197,6 +197,12 @@ void Slug::Slugarray::Rendering(SlugState state)
 
 
 
+Slug::~Slug()
+{
+	delete Slugbody;
+	Slugbody = NULL;
+}
+
 void Slug::Start()
 {
 

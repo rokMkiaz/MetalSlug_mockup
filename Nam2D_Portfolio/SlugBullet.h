@@ -46,12 +46,13 @@ namespace SlugBullet
 
 
 			BombBullet();
+			~BombBullet();
 
-			Vector<2> StartLocation = Vector<2>(0, 0); 
+			Vector<2> StartLocation = Vector<2>(0, 0); // 탄이 떨어지면서 각도변화를 만들기 위한 저장공간
 
 			float speed = 800.f;
-			float acceleration = 1.0f;  
-			float gravity = 10.0f;     
+			float acceleration = 1.0f;  //감속도
+			float gravity = 10.0f;     //중력
 
 
 
@@ -70,8 +71,8 @@ namespace SlugBullet
 			Bombeffect();
 
 			virtual void Start(Vector<2> location)  final override;
-			virtual void Update()		         final override;
-			virtual void End()			 final override;
+			virtual void Update()					final override;
+			virtual void End()						final override;
 		};
 
 	}

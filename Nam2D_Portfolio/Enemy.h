@@ -22,6 +22,7 @@ namespace Enemy
 		class Soldier : public Actor
 		{
 		public:
+			~Soldier();
 
 			class Soldierarray
 			{
@@ -91,6 +92,7 @@ namespace Enemy
 		class Tank : public Actor
 		{
 		public:
+			~Tank();
 
 			class Tankarray
 			{

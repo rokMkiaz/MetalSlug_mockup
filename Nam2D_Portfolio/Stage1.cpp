@@ -47,6 +47,28 @@ Stage1::Stage1()
 	PlayerImage.Location = Vector<2>(40, 43);
 }
 
+Stage1::~Stage1()
+{
+	delete Boss;
+	Boss = NULL;
+
+	for (int i = 0; i < 10; i++)
+	{
+		delete EnemyTank[i];
+		EnemyTank[i] = NULL;
+	}
+
+	for (int i = 0; i < 40; i++)
+	{
+		delete EnemySoldier[i];
+		EnemySoldier[i] = NULL;
+	}
+
+	delete Player;
+	Player = NULL;
+
+}
+
 void Stage1::Start()
 {
 	Player = new Slug;
@@ -414,7 +436,7 @@ Stage* Stage1::Update()
 			if (Player->bullet2[i]->Hit.Collide(EnemyTank[j]->Actorphysics) && EnemyTank[j]->Hp > 0)
 			{
 				
-				Player->bullet2[i]->End(), EnemyTank[j]->Hp -= Player->bullet2[i]->Damage;
+				Player->bullet2[i]->End(), EnemyTank[j]->Hp -= Player->bullet2[i]->Damage ;
 				Player->bullet2[i]->Damage = 0;
 			}
 		}
@@ -424,7 +446,7 @@ Stage* Stage1::Update()
 	{
 		if (Player->bullet2[i]->Hit.Collide(Boss->Actorphysics) && Boss->Hp > 0)
 		{
-			Player->bullet2[i]->End(), Boss->Hp -= Player->bullet2[i]->Damage;
+			Player->bullet2[i]->End(), Boss->Hp -= Player->bullet2[i]->Damage ;
 			Player->bullet2[i]->Damage = 0;
 		}
 	}

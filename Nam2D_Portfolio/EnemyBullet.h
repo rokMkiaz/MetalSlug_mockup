@@ -16,13 +16,14 @@ namespace Enemybullet
 
 			float FireAngle = 0.0f;
 			float speed = 980.f;
-			float acceleration = 1.0f;  
-			float gravity = 5.0f;     
+			float acceleration = 1.0f;  //감속도
+			float gravity = 5.0f;     //중력
 			float randboost = 0.0f;
 
 
 
 			SoldierBullet();
+			~SoldierBullet();
 			virtual void Start(Vector<2> location, float angle) override;
 			virtual void Update() override;
 			virtual void End() override;
@@ -51,17 +52,19 @@ namespace Enemybullet
 		{
 		public:
 		
+
 			Engine::Rendering::Image::Component Hitbox;
 
 			float FireAngle = 0.0f;
 			float speed = 1200.f;
-			float acceleration = 1.0f;  
-			float gravity = 5.0f;    
+			float acceleration = 1.0f;  //감속도
+			float gravity = 5.0f;     //중력
 			float randboost = 0.0f;
 
 
 
 			TankBullet();
+			~TankBullet();
 			virtual void Start(Vector<2> location, float angle) override;
 			virtual void Update() override;
 			virtual void End() override;
@@ -96,7 +99,7 @@ namespace Enemybullet
 			float FireAngle = 0.0f;
 			float speed = 200.f;
 			float acceleration = 1.0f;  
-			float gravity = 5.0f;    
+			float gravity = 5.0f;     //중력
 
 
 
@@ -127,7 +130,7 @@ namespace Enemybullet
 			float speed = 800.f;
 			float Startpoint = 0.0f;
 			float acceleration = 1.0f;
-			float gravity = 5.0f;     
+			float gravity = 5.0f;     //중력
 
 
 

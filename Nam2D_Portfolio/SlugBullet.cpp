@@ -87,6 +87,11 @@ namespace SlugBullet
 			//
 			Hitbox.Name = "Image/GBB";
 		}
+		BombBullet::~BombBullet()
+		{
+			delete effect;
+			effect = NULL;
+		}
 		void BombBullet::Start(Vector<2> location, float angle)
 		{
 			Damage = 3;

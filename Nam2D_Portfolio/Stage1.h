@@ -10,6 +10,8 @@
 class Stage1 :    public Stage
 {
 public:
+	~Stage1();
+
 	virtual   void    Start() final override;
 	virtual  Stage* Update()  final override;
 	virtual   void	    End() final override;

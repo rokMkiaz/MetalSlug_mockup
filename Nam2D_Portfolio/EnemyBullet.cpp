@@ -22,6 +22,11 @@ namespace Enemybullet
 
 			Hitbox.Name = "Image/GBB";
 		}
+		SoldierBullet::~SoldierBullet()
+		{
+			delete effect;
+			effect = NULL;
+		}
 		void SoldierBullet::Start(Vector<2> location, float angle)
 		{
 			Damage = 1;
@@ -146,6 +151,11 @@ namespace Enemybullet
 
 			Hitbox.Name = "Image/GBB";
 
+		}
+		TankBullet::~TankBullet()
+		{
+			delete effect;
+			effect = NULL;
 		}
 		void TankBullet::Start(Vector<2> location, float angle)
 		{
